@@ -2,7 +2,16 @@ package ca.mcgill.ecse223.block.controller;
 
 import java.util.List;
 
+import ca.mcgill.ecse223.block.application.Block223Application;
+import ca.mcgill.ecse223.block.model.Admin;
+import ca.mcgill.ecse223.block.model.Block223;
+import ca.mcgill.ecse223.block.model.Player;
+import ca.mcgill.ecse223.block.model.User;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+
 public class Block223Controller {
+	
+	private static String error;
 
 	// ****************************
 	// Modifier methods
@@ -50,6 +59,45 @@ public class Block223Controller {
 
 	public static void register(String username, String playerPassword, String adminPassword)
 			throws InvalidInputException {
+		if (Block223Application.getCurrentUser() == null) {
+			if (!playerPassword.equals(adminPassword)) {
+				Block223 block223 = Block223Application.getBlock223();
+				Player player = null;
+				User user = null;
+				
+				try {
+					player = new Player(playerPassword, block223);
+				} catch (RuntimeException e) {
+					throw new InvalidInputException(e.getMessage());
+				}
+				
+				try {
+					user = new User(username, block223, player);
+				} catch (RuntimeException e) {
+					throw new InvalidInputException(e.getMessage());
+				}
+				
+				if (adminPassword != null && adminPassword != "") {
+					Admin admin = new Admin(adminPassword, block223);
+					user.addRole(admin);
+				}
+				
+				try {
+					Block223Persistence.save(block223);
+				} catch (RuntimeException e) {
+					throw new InvalidInputException(e.getMessage());
+				}
+			}
+			else {
+				error = "The passwords have to be different.";
+			}
+		} else {
+			error = "Cannot register a new user while a user is logged in."; 
+		}
+		
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
 	}
 
 	public static void login(String username, String password) throws InvalidInputException {

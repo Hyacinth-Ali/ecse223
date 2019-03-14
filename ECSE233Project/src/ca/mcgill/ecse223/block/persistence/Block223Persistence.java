@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.block.persistence;
+package ca.mcgill.ecse223.block.persistence;
 
 import ca.mcgill.ecse223.block.model.*;
 

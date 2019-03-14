@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.block.persistence;
+package ca.mcgill.ecse223.block.persistence;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
