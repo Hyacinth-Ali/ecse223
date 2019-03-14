@@ -34,6 +34,8 @@ public class Block223LogInPage extends JFrame {
 	//Error messages
 	private String loginError;
 	private String registerError;
+	
+	
 	private JTextField textField_userName_Login;
 	private JTextField textField_userName_register;
 	private JPasswordField passwordField;
@@ -89,7 +91,6 @@ public class Block223LogInPage extends JFrame {
 		
 		lblErrorMessage = new JLabel("");
 		lblErrorMessage.setForeground(Color.RED);
-		lblErrorMessage.setText("What is happening");
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -137,8 +138,18 @@ public class Block223LogInPage extends JFrame {
 		separator_2.setBackground(Color.MAGENTA);
 		
 		passwordField = new JPasswordField();
+		passwordField.setEchoChar('*');
 		
 		JCheckBox chckbxShowPassword = new JCheckBox("Show Password");
+		chckbxShowPassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(chckbxShowPassword.isSelected()) {
+					passwordField.setEchoChar((char)0);
+				} else {
+					passwordField.setEchoChar('*');
+				}
+			}
+		});
 		
 		passwordField_1 = new JPasswordField();
 		
@@ -175,7 +186,7 @@ public class Block223LogInPage extends JFrame {
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
+				.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(7)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -195,7 +206,7 @@ public class Block223LogInPage extends JFrame {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblErrorMessage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblErrorMessage, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
 								.addComponent(lblPassword))))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
@@ -223,12 +234,12 @@ public class Block223LogInPage extends JFrame {
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addComponent(passwordField_2, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
 									.addComponent(btnRegister, Alignment.LEADING))))
-						.addComponent(lblerrorMessage_register, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
+						.addComponent(lblerrorMessage_register, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
 					.addGap(129))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(166)
 					.addComponent(welcomeLabel, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(347, Short.MAX_VALUE))
+					.addContainerGap(315, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -271,11 +282,10 @@ public class Block223LogInPage extends JFrame {
 									.addComponent(chckbxShowPassword)
 									.addGap(46)
 									.addComponent(btnLogin)))
-							.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-							.addComponent(btnRegister)
-							.addGap(23))
-						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
-						.addComponent(separator_2, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
+							.addGap(61)
+							.addComponent(btnRegister))
+						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+						.addComponent(separator_2, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		getContentPane().setLayout(groupLayout);
@@ -303,7 +313,7 @@ public class Block223LogInPage extends JFrame {
 		}
 		
 		//update visuals
-		refreshData();
+		refreshLogin();
 	}
 	
 	private void registerActionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,7 +339,7 @@ public class Block223LogInPage extends JFrame {
 			registerError = "You can't register with empty user name.";
 		}
 		//Update visual
-		refreshData();
+		refreshRegister();
 		}
 	
 	private void refreshLogin() {
@@ -340,7 +350,7 @@ public class Block223LogInPage extends JFrame {
 		passwordField.setText("");
 	}
 	
-	private void refreshData() {
+	private void refreshRegister() {
 		lblerrorMessage_register.setText(registerError);
 		
 		//register page

@@ -53,6 +53,11 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
+    // line 40 "../../../../../Block223 v2.ump"
+    if (aName == null || aName.length() == 0) {
+    	  throw new RuntimeException("The name of a game must be specified.");
+    	}
+    // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
     if (!setName(aName))
     {
@@ -85,6 +90,11 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
+    // line 40 "../../../../../Block223 v2.ump"
+    if (aName == null || aName.length() == 0) {
+    	  throw new RuntimeException("The name of a game must be specified.");
+    	}
+    // END OF UMPLE BEFORE INJECTION
     name = aName;
     nrBlocksPerLevel = aNrBlocksPerLevel;
     boolean didAddAdmin = setAdmin(aAdmin);
@@ -111,6 +121,11 @@ public class Game implements Serializable
   public boolean setName(String aName)
   {
     boolean wasSet = false;
+    // line 40 "../../../../../Block223 v2.ump"
+    if (aName == null || aName.length() == 0) {
+    	  throw new RuntimeException("The name of a game must be specified.");
+    	}
+    // END OF UMPLE BEFORE INJECTION
     String anOldName = getName();
     if (hasWithName(aName)) {
       return wasSet;
