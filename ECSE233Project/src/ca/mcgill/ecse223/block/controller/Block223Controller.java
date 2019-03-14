@@ -7,11 +7,12 @@ import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.model.Block223;
 import ca.mcgill.ecse223.block.model.Player;
 import ca.mcgill.ecse223.block.model.User;
+import ca.mcgill.ecse223.block.model.UserRole;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 public class Block223Controller {
 	
-	private static String error;
+	private static String error = "";
 
 	// ****************************
 	// Modifier methods
@@ -59,17 +60,20 @@ public class Block223Controller {
 
 	public static void register(String username, String playerPassword, String adminPassword)
 			throws InvalidInputException {
-		if (Block223Application.getCurrentUser() == null) {
+		//////**************
+		try {
+			Block223 block = Block223Application.getBlock223();
+			block.delete();
+			Block223Persistence.save(block);
+		} catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+		///***********************
+		if (Block223Application.getCurrentUserRole() == null) {
 			if (!playerPassword.equals(adminPassword)) {
 				Block223 block223 = Block223Application.getBlock223();
 				Player player = null;
 				User user = null;
-				
-				try {
-					player = new Player(playerPassword, block223);
-				} catch (RuntimeException e) {
-					throw new InvalidInputException(e.getMessage());
-				}
 				
 				try {
 					user = new User(username, block223, player);
@@ -95,12 +99,43 @@ public class Block223Controller {
 			error = "Cannot register a new user while a user is logged in."; 
 		}
 		
+		/*try {
+			Block223 block = Block223Application.getBlock223();
+			block.delete();
+			Block223Persistence.save(block);
+		} catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}*/
+		
 		if (error.length() > 0) {
 			throw new InvalidInputException(error.trim());
 		}
 	}
 
 	public static void login(String username, String password) throws InvalidInputException {
+		//clear error
+		error = "";
+		if (Block223Application.getCurrentUserRole() == null) {
+			User user = User.getWithUsername(username);
+			if (user == null) {
+				throw new InvalidInputException("The username and password do not match.");
+			}
+			for (UserRole role : user.getRoles()) {
+				String rolePassword = role.getPassword();
+				if (rolePassword.equals(password)) {
+					Block223Application.setCurrentUserRole(role);
+					Block223Application.resetBlock223();
+				} else {
+					error = "The username and password do not match.";
+				}
+			}
+			
+		} else {
+			error = "Cannot login a user while a user is already logged in.";
+		}
+		if (error.length() > 0) {
+			throw new InvalidInputException(error.trim());
+		}
 	}
 
 	public static void logout() {

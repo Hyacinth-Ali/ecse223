@@ -9,7 +9,7 @@ import ca.mcgill.ecse223.block.view.Block223LogInPage;
 public class Block223Application {
 	
 private static Block223 block223 = null;
-private static UserRole currentUser = null;
+private static UserRole currentUserRole = null;
 private static Game currentGame = null;
 
 
@@ -27,18 +27,16 @@ private static Game currentGame = null;
 		if (block223 == null) {
 			// load model
 			block223 = Block223Persistence.load();
-		} else {
-			block223.reinitialize();
 		}
  		return block223;
 	}
 
-	public static UserRole getCurrentUser() {
-		return currentUser;
+	public static UserRole getCurrentUserRole() {
+		return currentUserRole;
 	}
 
-	public static void setCurrentUser(UserRole currentUser) {
-		Block223Application.currentUser = currentUser;
+	public static void setCurrentUserRole(UserRole currentUser) {
+		Block223Application.currentUserRole = currentUser;
 	}
 
 	public static Game getCurrentGame() {
@@ -47,6 +45,10 @@ private static Game currentGame = null;
 
 	public static void setCurrentGame(Game currentGame) {
 		Block223Application.currentGame = currentGame;
+	}
+	
+	public static void resetBlock223() {
+		block223 = Block223Persistence.load();
 	}
 	
 
